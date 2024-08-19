@@ -15,12 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve
+from django.conf import settings
+
 from website.views import depart, user, admin, account, order
 
+
 urlpatterns = [
-    # path('admin/', admin.site.urls), 最后一个/记得加
-    # 部门管理
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
+    # path('admin/', admin.site.urls)
+    # 部门管理, 最后一个/记得加
     path('depart/list/', depart.depart_list),
     path('depart/add/', depart.depart_add),
     path('depart/delete/', depart.depart_delete),
